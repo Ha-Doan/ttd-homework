@@ -16,8 +16,20 @@ class Codebreaker
     def guess(input)
       if input.size != 4
         output.puts "Try guessing a number with four digits"
-      end
-
+      else
+        input_array = input.each_char.map(&:to_i)
+        secret_array = @secret_number.each_char.map(&:to_i)
+        for i in 0..3
+          for j in 0..3
+              if input_array[j] != secret_array[i]
+                result = ''
+              else
+                result = 'esle'
+              end
+          end
+        end
+        output.puts result
+     end
     end
   end
 end

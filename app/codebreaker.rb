@@ -2,6 +2,7 @@ class Codebreaker
   class Game
     attr_reader :output
     ARRAY_RANGE = 0..3
+    NUMBER_OF_DIGITS = 4
 
     def initialize(output)
       @output = output
@@ -15,7 +16,7 @@ class Codebreaker
     end
 
     def guess(input)
-      if input.size != 4
+      if input.size != NUMBER_OF_DIGITS
         output.puts "Try guessing a number with four digits"
       else
         @input_array = input.chars.to_a

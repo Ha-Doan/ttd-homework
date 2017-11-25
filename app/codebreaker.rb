@@ -25,6 +25,13 @@ class Codebreaker
               if input_array[j] == secret_array[i]
                 if i == j
                   result.push('+')
+                  if result.include?('-')
+                    first_minus_index = result.find_index('-')
+                    plus_index = result.length - 1
+                    if plus_index > first_minus_index
+                      result[first_minus_index], result[plus_index] = result[plus_index], result[first_minus_index]
+                    end
+                  end
                 else
                   result.push('-')
                 end

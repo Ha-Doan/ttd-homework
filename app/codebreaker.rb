@@ -19,14 +19,14 @@ class Codebreaker
       else
         input_array = input.each_char.map(&:to_i)
         secret_array = @secret_number.each_char.map(&:to_i)
-        result = ['','']
+        result = []
         for i in 0..3
           for j in 0..3
               if input_array[j] == secret_array[i]
                 if i == j
-                  result[0] = '+'
+                  result.push('+')
                 else
-                  result[1] = '-'
+                  result.push('-')
                 end
               end
           end

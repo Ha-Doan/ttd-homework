@@ -1,6 +1,7 @@
 class Codebreaker
   class Game
     attr_reader :output
+    ARRAY_RANGE = 0..3
 
     def initialize(output)
       @output = output
@@ -17,29 +18,45 @@ class Codebreaker
       if input.size != 4
         output.puts "Try guessing a number with four digits"
       else
-        input_array = input.each_char.map(&:to_i)
-        secret_array = @secret_number.each_char.map(&:to_i)
-        result = []
-        for i in 0..3
-          for j in 0..3
-              if input_array[j] == secret_array[i]
-                if i == j
-                  result.push('+')
-                  if result.include?('-')
-                    first_minus_index = result.find_index('-')
-                    plus_index = result.length - 1
-                    if plus_index > first_minus_index
-                      result[first_minus_index], result[plus_index] = result[plus_index], result[first_minus_index]
-                    end
-                  end
-                else
-                  result.push('-')
-                end
-              end
-          end
-        end
-        output.puts result.join
+        @input_array = input.chars.to_a
+        @secret_array = @secret_number.chars.to_a
+        @result = []
+        @checked_digits = []
+
+        respond
+        output.puts @result.join
      end
+   end
+
+   def respond
+     for i in ARRAY_RANGE
+       for j in ARRAY_RANGE
+           if @input_array[j] == @secret_array[i]
+             j == i ? output_plus : output_minus(@input_array[j])
+             @checked_digits.push(@input_array[j])
+           end
+       end
+     end
+   end
+
+  def output_plus
+      @result.push('+')
+      # put + before -
+      if @result.include?('-')
+        first_minus_index = @result.find_index('-')
+        plus_index = @result.length - 1
+        @result[first_minus_index], @result[plus_index] = @result[plus_index], @result[first_minus_index]
+      end
+  end
+
+  def output_minus(digit)
+    if !already_checked(digit)
+      @result.push('-')
     end
   end
+
+  def already_checked(digit)
+    @checked_digits.include?(digit)
+  end
+end
 end
